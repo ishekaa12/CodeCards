@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+</head>
+<body>
+    <h1>CodeCards Icon Generator</h1>
+    <p>Click the buttons below to generate and download icons:</p>
+    
+    <div>
+        <button onclick="generateIcon(16)">Generate 16x16</button>
+        <button onclick="generateIcon(48)">Generate 48x48</button>
+        <button onclick="generateIcon(128)">Generate 128x128</button>
+    </div>
+    
+    <canvas id="canvas" style="display:none;"></canvas>
+    
+    <script>
+        async function generateIcon(size) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Create SVG
+            const svg = `
+                <svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="${size}" height="${size}" rx="${size/8}" fill="#4a90e2"/>
+                    <rect x="${size*0.156}" y="${size*0.117}" width="${size*0.688}" height="${size*0.766}" rx="${size*0.0625}" fill="#ffffff" opacity="0.95"/>
+                    <path d="M ${size*0.273} ${size*0.313} L ${size*0.219} ${size*0.375} L ${size*0.273} ${size*0.438}" stroke="#4a90e2" stroke-width="${Math.max(2, size/40)}" fill="none" stroke-linecap="round"/>
+                    <path d="M ${size*0.727} ${size*0.313} L ${size*0.781} ${size*0.375} L ${size*0.727} ${size*0.438}" stroke="#4a90e2" stroke-width="${Math.max(2, size/40)}" fill="none" stroke-linecap="round"/>
+                    <line x1="${size*0.352}" y1="${size*0.391}" x2="${size*0.547}" y2="${size*0.391}" stroke="#4a90e2" stroke-width="${Math.max(1.5, size/60)}" stroke-linecap="round"/>
+                    <line x1="${size*0.352}" y1="${size*0.469}" x2="${size*0.625}" y2="${size*0.469}" stroke="#4a90e2" stroke-width="${Math.max(1.5, size/60)}" stroke-linecap="round"/>
+                    <line x1="${size*0.352}" y1="${size*0.547}" x2="${size*0.508}" y2="${size*0.547}" stroke="#4a90e2" stroke-width="${Math.max(1.5, size/60)}" stroke-linecap="round"/>
+                    <circle cx="${size*0.781}" cy="${size*0.781}" r="${size*0.0625}" fill="#ffffff" opacity="0.8"/>
+                </svg>
+            `;
+            
+            const img = new Image();
+            const svgBlob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
+            const url = URL.createObjectURL(svgBlob);
+            
+            img.onload = function() {
+                ctx.clearRect(0, 0, size, size);
+                ctx.drawImage(img, 0, 0);
+                
+                canvas.toBlob(function(blob) {
+                    const link = document.createElement('a');
+                    link.download = `icon${size}.png`;
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+                    URL.revokeObjectURL(url);
+                });
+            };
+            
+            img.src = url;
+        }
+    </script>
+</body>
+</html>

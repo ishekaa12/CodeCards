@@ -1,0 +1,22 @@
+[
+  { "front": "How to declare ArrayList in Java?", "back": "ArrayList<Integer> list = new ArrayList<>();", "category": "syntax" },
+  { "front": "Binary Search Time Complexity?", "back": "O(log n)", "category": "dsa" },
+  { "front": "Convert String to int in Java", "back": "Integer.parseInt(str);", "category": "syntax" },
+  { "front": "For loop syntax in Java", "back": "for(int i = 0; i < n; i++) {}", "category": "syntax" },
+  { "front": "While loop syntax", "back": "while(condition) {}", "category": "syntax" },
+  { "front": "How to declare an array?", "back": "int[] arr = new int[10];", "category": "syntax" },
+  { "front": "What is HashMap?", "back": "Map<Key, Value> map = new HashMap<>();", "category": "syntax" },
+  { "front": "Time Complexity of Merge Sort", "back": "O(n log n)", "category": "dsa" },
+  { "front": "Space Complexity of Merge Sort", "back": "O(n)", "category": "dsa" },
+  { "front": "Find length of array", "back": "arr.length", "category": "syntax" },
+  { "front": "Find length of String", "back": "str.length()", "category": "syntax" },
+  { "front": "Check even number", "back": "n % 2 == 0", "category": "syntax" },
+  { "front": "Java input using Scanner", "back": "Scanner sc = new Scanner(System.in);", "category": "syntax" },
+  { "front": "Add element to ArrayList", "back": "list.add(value);", "category": "syntax" },
+  { "front": "Remove from ArrayList", "back": "list.remove(index);", "category": "syntax" },
+  { "front": "Binary Search Rule 1", "back": "Use mid = left + (right-left)/2", "category": "dsa" },
+  { "front": "Stacks in Java", "back": "Stack<Integer> st = new Stack<>();", "category": "syntax" },
+  { "front": "Queue in Java", "back": "Queue<Integer> q = new LinkedList<>();", "category": "syntax" },
+  { "front": "Recursion Rule", "back": "Always define a base case + recursive case", "category": "dsa" },
+  { "front": "Bubble Sort Best Case", "back": "O(n)", "category": "dsa" }
+]

@@ -1,0 +1,19 @@
+<svg width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="128" height="128" rx="16" fill="#4a90e2"/>
+  
+  <!-- Card shape -->
+  <rect x="20" y="15" width="88" height="98" rx="8" fill="#ffffff" opacity="0.95"/>
+  
+  <!-- Code brackets or card lines -->
+  <path d="M 35 40 L 28 48 L 35 56" stroke="#4a90e2" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M 93 40 L 100 48 L 93 56" stroke="#4a90e2" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Additional decorative lines (representing code) -->
+  <line x1="45" y1="50" x2="70" y2="50" stroke="#4a90e2" stroke-width="2" stroke-linecap="round"/>
+  <line x1="45" y1="60" x2="80" y2="60" stroke="#4a90e2" stroke-width="2" stroke-linecap="round"/>
+  <line x1="45" y1="70" x2="65" y2="70" stroke="#4a90e2" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Small indicator (flashcard flip) -->
+  <circle cx="100" cy="100" r="8" fill="#ffffff" opacity="0.8"/>
+</svg>
