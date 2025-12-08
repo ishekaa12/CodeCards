@@ -5,7 +5,7 @@ A Chrome extension that displays Java & DSA flashcards on every new tab to help 
 ## Features
 
 - 🎴 Random flashcards on every new tab
-- 📚 Java syntax and DSA concepts
+- 📚 Pre-loaded Java syntax and DSA concepts
 - 🎨 Clean, minimal interface
 - ⚡ Lightweight and fast
 
@@ -31,12 +31,18 @@ A Chrome extension that displays Java & DSA flashcards on every new tab to help 
 Codecards/
 ├── assets/
 │   └── icons/          # Extension icons (16x16, 48x48, 128x128)
+│       ├── icon16.png
+│       ├── icon48.png
+│       ├── icon128.png
+│       ├── icon.svg                # Source SVG file
+│       ├── generate-icons.py       # Python script to generate icons
+│       └── generate-icons.html     # HTML tool to generate icons
 ├── data/
-│   └── defaultCards.json  # Flashcard data
-├── manifest.json       # Chrome extension manifest
-├── newtab.html         # New tab page HTML
-├── newtab.css          # Styles
-└── newtab.js           # Main logic
+│   └── defaultCards.json           # Flashcard data
+├── manifest.json                   # Chrome extension manifest
+├── newtab.html                     # New tab page HTML
+├── newtab.css                      # Styles
+└── newtab.js                       # Main logic
 ```
 
 ## Customizing Flashcards
@@ -47,9 +53,11 @@ Edit `data/defaultCards.json` to add, remove, or modify flashcards:
 {
   "front": "Your question here",
   "back": "Your answer here",
-  "category": "syntax" // or "dsa"
+  "category": "syntax"
 }
 ```
+
+Current categories: `syntax`, `dsa`
 
 ## Icon Generation
 
@@ -60,6 +68,21 @@ If you need to regenerate the extension icons:
 
 Or use the HTML generator: open `assets/icons/generate-icons.html` in your browser.
 
+## Tech Stack
+
+- Chrome Extension (Manifest V3)
+- HTML, CSS, JavaScript
+- JSON for data storage
+
+## Future Enhancements
+
+- Add custom cards through UI
+- Filter by category
+- Dark mode
+- Spaced repetition algorithm
+- Statistics and progress tracking
+- Multi-language support (Python, JavaScript, etc.)
+
 ## License
 
 MIT License
@@ -67,4 +90,3 @@ MIT License
 ## Contributing
 
 Contributions are welcome! Feel free to submit a Pull Request.
-
