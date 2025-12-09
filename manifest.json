@@ -3,6 +3,7 @@
   "name": "CodeCards",
   "version": "1.0",
   "description": "Flashcards for Java & DSA on every new tab.",
+  "permissions": ["storage"],
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
@@ -12,4 +13,3 @@
     "128": "assets/icons/icon128.png"
   }
 }
-

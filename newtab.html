@@ -1,16 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>CodeCards</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCards - New Tab</title>
     <link rel="stylesheet" href="newtab.css">
 </head>
 <body>
+    <div class="container">
+        <div class="flashcard" id="flashcard">
+            <div class="category-badge" id="category">JAVA</div>
+            <div class="card-content">
+                <div class="card-front" id="cardFront">Loading...</div>
+                <div class="card-back" id="cardBack" style="display: none;"></div>
+            </div>
+            <div class="flip-hint">Click card to flip</div>
+        </div>
 
-<div class="card">
-    <div id="front" class="side front"></div>
-    <div id="back" class="side back"></div>
-</div>
+        <div class="buttons">
+            <button id="addCardBtn">➕ Add New Card</button>
+            <button id="nextCardBtn">⏭️ Next Card</button>
+        </div>
 
-<script src="newtab.js"></script>
+        <div class="stats" id="stats">Total Cards: 0</div>
+    </div>
+
+    <!-- Add Card Modal -->
+    <div class="modal" id="addCardModal">
+        <div class="modal-content">
+            <h2>Add New Flashcard</h2>
+            <form id="addCardForm">
+                <div class="form-group">
+                    <label for="cardFrontInput">Front (Question/Concept)</label>
+                    <input type="text" id="cardFrontInput" placeholder="e.g., How to declare ArrayList in Java?" required>
+                </div>
+                <div class="form-group">
+                    <label for="cardBackInput">Back (Answer/Code)</label>
+                    <textarea id="cardBackInput" placeholder="e.g., ArrayList<Integer> list = new ArrayList<>();" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="categoryInput">Category</label>
+                    <select id="categoryInput" required>
+                        <option value="Java">Java</option>
+                        <option value="DSA">DSA</option>
+                        <option value="C">C</option>
+                        <option value="HTML/CSS">HTML/CSS</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="cancel" id="cancelBtn">Cancel</button>
+                    <button type="submit">Save Card</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="newtab.js"></script>
 </body>
 </html>
