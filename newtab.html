@@ -19,6 +19,7 @@
 
         <div class="buttons">
             <button id="addCardBtn">➕ Add New Card</button>
+            <button id="viewAllBtn">📋 View All Cards</button>
             <button id="nextCardBtn">⏭️ Next Card</button>
         </div>
 
@@ -53,6 +54,63 @@
                     <button type="submit">Save Card</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Edit Card Modal -->
+    <div class="modal" id="editCardModal">
+        <div class="modal-content">
+            <h2>Edit Flashcard</h2>
+            <form id="editCardForm">
+                <div class="form-group">
+                    <label for="editCardFrontInput">Front (Question/Concept)</label>
+                    <input type="text" id="editCardFrontInput" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCardBackInput">Back (Answer/Code)</label>
+                    <textarea id="editCardBackInput" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editCategoryInput">Category</label>
+                    <select id="editCategoryInput" required>
+                        <option value="Java">Java</option>
+                        <option value="DSA">DSA</option>
+                        <option value="C">C</option>
+                        <option value="HTML/CSS">HTML/CSS</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="cancel" id="editCancelBtn">Cancel</button>
+                    <button type="submit">Update Card</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View All Cards Modal -->
+    <div class="modal" id="viewAllModal">
+        <div class="modal-content view-all-content">
+            <div class="modal-header">
+                <h2>All Flashcards</h2>
+                <button class="close-btn" id="closeViewAllBtn">✕</button>
+            </div>
+            
+            <div class="filter-section">
+                <label for="categoryFilter">Filter by Category:</label>
+                <select id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="Java">Java</option>
+                    <option value="DSA">DSA</option>
+                    <option value="C">C</option>
+                    <option value="HTML/CSS">HTML/CSS</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="cards-list" id="cardsList">
+                <!-- Cards will be dynamically inserted here -->
+            </div>
         </div>
     </div>
 

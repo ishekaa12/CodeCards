@@ -23,8 +23,10 @@ const defaultCards = [
 ];
 
 let allCards = [];
+let customCards = [];
 let currentCard = null;
 let isFlipped = false;
+let editingIndex = -1;
 
 // Initialize
 async function init() {
@@ -37,7 +39,7 @@ async function init() {
 async function loadCards() {
     return new Promise((resolve) => {
         chrome.storage.local.get(['customCards'], (result) => {
-            const customCards = result.customCards || [];
+            customCards = result.customCards || [];
             allCards = [...defaultCards, ...customCards];
             resolve();
         });
@@ -74,10 +76,10 @@ document.getElementById('nextCardBtn').addEventListener('click', (e) => {
 
 // Update stats
 function updateStats() {
-    document.getElementById('stats').textContent = `Total Cards: ${allCards.length}`;
+    document.getElementById('stats').textContent = `Total Cards: ${allCards.length} (${customCards.length} custom)`;
 }
 
-// Modal controls
+// Modal controls - Add Card
 document.getElementById('addCardBtn').addEventListener('click', () => {
     document.getElementById('addCardModal').classList.add('active');
 });
@@ -97,32 +99,146 @@ document.getElementById('addCardForm').addEventListener('submit', async (e) => {
         category: document.getElementById('categoryInput').value
     };
 
-    // Get existing custom cards
-    chrome.storage.local.get(['customCards'], (result) => {
-        const customCards = result.customCards || [];
-        customCards.push(newCard);
+    customCards.push(newCard);
 
-        // Save to storage
-        chrome.storage.local.set({ customCards }, async () => {
-            // Reload cards
-            await loadCards();
-            updateStats();
-
-            // Close modal and reset form
-            document.getElementById('addCardModal').classList.remove('active');
-            document.getElementById('addCardForm').reset();
-
-            // Show success (optional)
-            alert('Card added successfully! 🎉');
-        });
+    chrome.storage.local.set({ customCards }, async () => {
+        await loadCards();
+        updateStats();
+        document.getElementById('addCardModal').classList.remove('active');
+        document.getElementById('addCardForm').reset();
+        alert('Card added successfully! 🎉');
     });
 });
 
-// Close modal when clicking outside
+// View All Cards
+document.getElementById('viewAllBtn').addEventListener('click', () => {
+    displayAllCards();
+    document.getElementById('viewAllModal').classList.add('active');
+});
+
+document.getElementById('closeViewAllBtn').addEventListener('click', () => {
+    document.getElementById('viewAllModal').classList.remove('active');
+});
+
+// Display all cards in the modal
+function displayAllCards(filterCategory = 'all') {
+    const cardsList = document.getElementById('cardsList');
+    cardsList.innerHTML = '';
+
+    // Filter cards
+    let cardsToDisplay = allCards;
+    if (filterCategory !== 'all') {
+        cardsToDisplay = allCards.filter(card => card.category === filterCategory);
+    }
+
+    if (cardsToDisplay.length === 0) {
+        cardsList.innerHTML = '<div class="no-cards-message">No cards found in this category.</div>';
+        return;
+    }
+
+    cardsToDisplay.forEach((card, index) => {
+        const isDefault = index < defaultCards.length;
+        const actualIndex = isDefault ? -1 : index - defaultCards.length;
+
+        const cardItem = document.createElement('div');
+        cardItem.className = 'card-item' + (isDefault ? ' default-card' : '');
+        
+        cardItem.innerHTML = `
+            ${isDefault ? '<div class="default-badge">Default</div>' : ''}
+            <div class="card-item-header">
+                <span class="card-item-category">${card.category}</span>
+                <div class="card-item-actions">
+                    ${!isDefault ? `
+                        <button class="edit-btn" onclick="editCard(${actualIndex})">✏️ Edit</button>
+                        <button class="delete-btn" onclick="deleteCard(${actualIndex})">🗑️ Delete</button>
+                    ` : ''}
+                </div>
+            </div>
+            <div class="card-item-front">${card.front}</div>
+            <div class="card-item-back">${card.back}</div>
+        `;
+
+        cardsList.appendChild(cardItem);
+    });
+}
+
+// Category filter
+document.getElementById('categoryFilter').addEventListener('change', (e) => {
+    displayAllCards(e.target.value);
+});
+
+// Edit Card
+window.editCard = function(index) {
+    editingIndex = index;
+    const card = customCards[index];
+
+    document.getElementById('editCardFrontInput').value = card.front;
+    document.getElementById('editCardBackInput').value = card.back;
+    document.getElementById('editCategoryInput').value = card.category;
+
+    document.getElementById('viewAllModal').classList.remove('active');
+    document.getElementById('editCardModal').classList.add('active');
+};
+
+document.getElementById('editCancelBtn').addEventListener('click', () => {
+    document.getElementById('editCardModal').classList.remove('active');
+    document.getElementById('editCardForm').reset();
+    editingIndex = -1;
+});
+
+// Update card
+document.getElementById('editCardForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    customCards[editingIndex] = {
+        front: document.getElementById('editCardFrontInput').value.trim(),
+        back: document.getElementById('editCardBackInput').value.trim(),
+        category: document.getElementById('editCategoryInput').value
+    };
+
+    chrome.storage.local.set({ customCards }, async () => {
+        await loadCards();
+        updateStats();
+        document.getElementById('editCardModal').classList.remove('active');
+        document.getElementById('editCardForm').reset();
+        editingIndex = -1;
+        alert('Card updated successfully! ✅');
+    });
+});
+
+// Delete Card
+window.deleteCard = function(index) {
+    if (confirm('Are you sure you want to delete this card?')) {
+        customCards.splice(index, 1);
+
+        chrome.storage.local.set({ customCards }, async () => {
+            await loadCards();
+            updateStats();
+            displayAllCards(document.getElementById('categoryFilter').value);
+            alert('Card deleted successfully! 🗑️');
+        });
+    }
+};
+
+// Close modals when clicking outside
 document.getElementById('addCardModal').addEventListener('click', (e) => {
     if (e.target.id === 'addCardModal') {
         document.getElementById('addCardModal').classList.remove('active');
         document.getElementById('addCardForm').reset();
+    }
+});
+
+document.getElementById('editCardModal').addEventListener('click', (e) => {
+    if (e.target.id === 'editCardModal') {
+        document.getElementById('editCardModal').classList.remove('active');
+        document.getElementById('editCardForm').reset();
+        editingIndex = -1;
+    }
+});
+
+document.getElementById('viewAllModal').addEventListener('click', (e) => {
+    if (e.target.id === 'viewAllModal') {
+        document.getElementById('viewAllModal').classList.remove('active');
     }
 });
 
