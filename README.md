@@ -9,6 +9,29 @@ A Chrome extension that displays Java & DSA flashcards on every new tab to help 
 - 🎨 Clean, minimal interface
 - ⚡ Lightweight and fast
 
+# CodeCards - Chrome Extension + Web Dashboard
+
+A flashcard Chrome extension for learning Java, DSA, and programming concepts.
+
+## 🚀 Live Demo
+- **Web Dashboard**: https://codecard-dashboard.vercel.app/
+- **Chrome Extension**: Install locally (see below)
+
+## Features
+- Random flashcards on every new tab
+- Add custom flashcards
+- Edit and delete cards
+- Filter by category (Java, DSA, C, HTML/CSS)
+- Web dashboard for managing cards anywhere
+
+## Tech Stack
+- HTML, CSS, JavaScript
+- Chrome Extension APIs
+- LocalStorage for web dashboard
+- Chrome Storage for extension
+- Deployed on Vercel
+
+
 ## Installation
 
 1. Clone this repository:
