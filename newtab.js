@@ -28,6 +28,9 @@ let currentCard = null;
 let isFlipped = false;
 let editingIndex = -1;
 
+// SYNC KEY - This connects extension with dashboard
+const SYNC_KEY = 'codecards_sync';
+
 // Initialize
 async function init() {
     await loadCards();
@@ -101,12 +104,15 @@ document.getElementById('addCardForm').addEventListener('submit', async (e) => {
 
     customCards.push(newCard);
 
-    chrome.storage.local.set({ customCards }, async () => {
+    // Save to Chrome storage (syncs with dashboard)
+    chrome.storage.local.set({ 
+        customCards
+    }, async () => {
         await loadCards();
         updateStats();
         document.getElementById('addCardModal').classList.remove('active');
         document.getElementById('addCardForm').reset();
-        alert('Card added successfully! 🎉');
+        alert('Card added successfully! 🎉\n(Synced with dashboard)');
     });
 });
 
@@ -136,9 +142,19 @@ function displayAllCards(filterCategory = 'all') {
         return;
     }
 
-    cardsToDisplay.forEach((card, index) => {
-        const isDefault = index < defaultCards.length;
-        const actualIndex = isDefault ? -1 : index - defaultCards.length;
+    cardsToDisplay.forEach((card) => {
+        // Check if card is in defaultCards array
+        const isDefault = defaultCards.some(defaultCard => 
+            defaultCard.front === card.front && 
+            defaultCard.back === card.back && 
+            defaultCard.category === card.category
+        );
+        // Find the actual index in customCards array
+        const actualIndex = isDefault ? -1 : customCards.findIndex(c => 
+            c.front === card.front && 
+            c.back === card.back && 
+            c.category === card.category
+        );
 
         const cardItem = document.createElement('div');
         cardItem.className = 'card-item' + (isDefault ? ' default-card' : '');
@@ -196,13 +212,16 @@ document.getElementById('editCardForm').addEventListener('submit', (e) => {
         category: document.getElementById('editCategoryInput').value
     };
 
-    chrome.storage.local.set({ customCards }, async () => {
+    // Save to Chrome storage (syncs with dashboard)
+    chrome.storage.local.set({ 
+        customCards
+    }, async () => {
         await loadCards();
         updateStats();
         document.getElementById('editCardModal').classList.remove('active');
         document.getElementById('editCardForm').reset();
         editingIndex = -1;
-        alert('Card updated successfully! ✅');
+        alert('Card updated successfully! ✅\n(Synced with dashboard)');
     });
 });
 
@@ -211,11 +230,15 @@ window.deleteCard = function(index) {
     if (confirm('Are you sure you want to delete this card?')) {
         customCards.splice(index, 1);
 
-        chrome.storage.local.set({ customCards }, async () => {
+        // Save to both Chrome storage AND sync key
+        chrome.storage.local.set({ 
+            customCards,
+            [SYNC_KEY]: JSON.stringify(customCards)
+        }, async () => {
             await loadCards();
             updateStats();
             displayAllCards(document.getElementById('categoryFilter').value);
-            alert('Card deleted successfully! 🗑️');
+            alert('Card deleted successfully! 🗑️\n(Synced with dashboard)');
         });
     }
 };
