@@ -104,9 +104,10 @@ document.getElementById('addCardForm').addEventListener('submit', async (e) => {
 
     customCards.push(newCard);
 
-    // Save to Chrome storage (syncs with dashboard)
+    // Save to both Chrome storage AND sync key
     chrome.storage.local.set({ 
-        customCards
+        customCards,
+        [SYNC_KEY]: JSON.stringify(customCards)
     }, async () => {
         await loadCards();
         updateStats();
@@ -126,6 +127,67 @@ document.getElementById('closeViewAllBtn').addEventListener('click', () => {
     document.getElementById('viewAllModal').classList.remove('active');
 });
 
+// Export/Import functionality
+document.getElementById('exportCardsBtn').addEventListener('click', () => {
+    const dataStr = JSON.stringify(customCards, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'codecards-backup.json';
+    link.click();
+    URL.revokeObjectURL(url);
+    alert('Cards exported! 📥\nImport this file in the dashboard to sync.');
+});
+
+document.getElementById('importCardsBtn').addEventListener('click', () => {
+    document.getElementById('importFileInput').click();
+});
+
+document.getElementById('importFileInput').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        try {
+            const importedCards = JSON.parse(event.target.result);
+            
+            if (!Array.isArray(importedCards)) {
+                alert('Invalid file format!');
+                return;
+            }
+            
+            const action = confirm('Click OK to ADD these cards.\nClick Cancel to REPLACE all cards.');
+            
+            if (action) {
+                customCards = [...customCards, ...importedCards];
+                alert(`Added ${importedCards.length} cards! 🎉`);
+            } else {
+                customCards = importedCards;
+                alert(`Replaced with ${importedCards.length} cards! 🎉`);
+            }
+            
+            chrome.storage.local.set({ customCards }, async () => {
+                await loadCards();
+                updateStats();
+                displayAllCards(document.getElementById('categoryFilter').value);
+            });
+            
+        } catch (error) {
+            alert('Error reading file!');
+        }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+});
+
+// Sync button - just opens view all
+document.getElementById('syncBtn').addEventListener('click', () => {
+    displayAllCards();
+    document.getElementById('viewAllModal').classList.add('active');
+});
+
 // Display all cards in the modal
 function displayAllCards(filterCategory = 'all') {
     const cardsList = document.getElementById('cardsList');
@@ -142,19 +204,9 @@ function displayAllCards(filterCategory = 'all') {
         return;
     }
 
-    cardsToDisplay.forEach((card) => {
-        // Check if card is in defaultCards array
-        const isDefault = defaultCards.some(defaultCard => 
-            defaultCard.front === card.front && 
-            defaultCard.back === card.back && 
-            defaultCard.category === card.category
-        );
-        // Find the actual index in customCards array
-        const actualIndex = isDefault ? -1 : customCards.findIndex(c => 
-            c.front === card.front && 
-            c.back === card.back && 
-            c.category === card.category
-        );
+    cardsToDisplay.forEach((card, index) => {
+        const isDefault = index < defaultCards.length;
+        const actualIndex = isDefault ? -1 : index - defaultCards.length;
 
         const cardItem = document.createElement('div');
         cardItem.className = 'card-item' + (isDefault ? ' default-card' : '');
@@ -212,9 +264,10 @@ document.getElementById('editCardForm').addEventListener('submit', (e) => {
         category: document.getElementById('editCategoryInput').value
     };
 
-    // Save to Chrome storage (syncs with dashboard)
+    // Save to both Chrome storage AND sync key
     chrome.storage.local.set({ 
-        customCards
+        customCards,
+        [SYNC_KEY]: JSON.stringify(customCards)
     }, async () => {
         await loadCards();
         updateStats();

@@ -6,8 +6,8 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #5c0335 0%, #043159 100%);
-    /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+    background: linear-gradient(135deg, #580649 0%, #04094b 100%);
+    /*background: linear-gradient(135deg, #580649 0%, #764ba2 100%);*/
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -135,7 +135,7 @@ button:hover {
 
 .modal-content h2 {
     margin-bottom: 25px;
-    color: #667eea;
+    color: #580649;
 }
 
 .form-group {
@@ -166,7 +166,7 @@ button:hover {
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #580649;
 }
 
 .form-group textarea {
@@ -183,7 +183,7 @@ button:hover {
 
 .modal-buttons button {
     flex: 1;
-    background: #667eea;
+    background: #580649;
     border: none;
     color: white;
 }
@@ -278,7 +278,7 @@ button:hover {
 }
 
 .card-item:hover {
-    border-color: #667eea;
+    border-color: #580649;
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
 }
 
@@ -290,7 +290,7 @@ button:hover {
 }
 
 .card-item-category {
-    background: #667eea;
+    background: #580649;
     color: white;
     padding: 4px 12px;
     border-radius: 12px;
@@ -335,7 +335,7 @@ button:hover {
     font-family: 'Courier New', monospace;
     font-size: 14px;
     white-space: pre-wrap;
-    border-left: 3px solid #667eea;
+    border-left: 3px solid #580649;
 }
 
 .no-cards-message {
@@ -373,7 +373,7 @@ button:hover {
 }
 
 .cards-list::-webkit-scrollbar-thumb {
-    background: #667eea;
+    background: #580649;
     border-radius: 10px;
 }
 

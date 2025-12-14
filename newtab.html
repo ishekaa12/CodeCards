@@ -20,7 +20,11 @@
         <div class="buttons">
             <button id="addCardBtn">➕ Add New Card</button>
             <button id="viewAllBtn">📋 View All Cards</button>
+            <button id="syncBtn">🔄 Sync</button>
             <button id="nextCardBtn">⏭️ Next Card</button>
+            <button id="exportCardsBtn">📤 Export Cards</button>
+            <button id="importCardsBtn">📥 Import Cards</button>
+
         </div>
 
         <div class="stats" id="stats">Total Cards: 0</div>
@@ -45,7 +49,8 @@
                         <option value="Java">Java</option>
                         <option value="DSA">DSA</option>
                         <option value="C">C</option>
-                        <option value="HTML/CSS">HTML/CSS</option>
+                        <option value="HTML">HTML</option>
+                        <option value="CSS">CSS</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>
@@ -76,7 +81,8 @@
                         <option value="Java">Java</option>
                         <option value="DSA">DSA</option>
                         <option value="C">C</option>
-                        <option value="HTML/CSS">HTML/CSS</option>
+                        <option value="HTML">HTML</option>
+                        <option value="CSS">CSS</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>
@@ -103,7 +109,8 @@
                     <option value="Java">Java</option>
                     <option value="DSA">DSA</option>
                     <option value="C">C</option>
-                    <option value="HTML/CSS">HTML/CSS</option>
+                    <option value="HTML">HTML</option>
+                    <option value="CSS">CSS</option>
                     <option value="Other">Other</option>
                 </select>
             </div>
@@ -113,6 +120,12 @@
             </div>
         </div>
     </div>
+    <input
+        type="file"
+        id="importFileInput"
+        accept="application/json"
+        style="display: none"
+        />
 
     <script src="newtab.js"></script>
 </body>
