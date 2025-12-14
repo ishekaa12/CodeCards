@@ -6,7 +6,7 @@ A comprehensive flashcard system for learning programming concepts, featuring a 
 
 ## 🌐 Live Demo
 
-- **Web Dashboard**: [https://codecard-dashboard.vercel.app/](https://codecard-dashboard.vercel.app/)
+- **Web Dashboard**: [https://codecard-dashboard.vercel.app/](https://codecard-dashboard-mm6b.vercel.app/)
 - **Chrome Extension**: Install locally (see instructions below)
 
 ## 📹 Demo Video
@@ -129,7 +129,7 @@ codecards/
 
 ### Web Dashboard
 
-Simply visit: **[https://codecard-dashboard.vercel.app/](https://codecard-dashboard.vercel.app/)**
+Simply visit: **[https://codecard-dashboard.vercel.app/](https://codecard-dashboard-mm6b.vercel.app/)**
 
 No installation needed!
 
@@ -274,4 +274,3 @@ MIT License - Feel free to use and modify!
 
 **Built with ❤️ for WeMakeDevs Hackathon 2025**
 
-**Live Dashboard**: https://codecard-dashboard.vercel.app/
